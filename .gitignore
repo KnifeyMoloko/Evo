@@ -1,0 +1,8 @@
+# binary files
+*.pyc
+
+# python cache
+__pycache__
+
+# vscode settings
+.vscode
