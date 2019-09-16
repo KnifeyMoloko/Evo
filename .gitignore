@@ -6,3 +6,9 @@ __pycache__
 
 # vscode settings
 .vscode
+
+# venv stuff
+venv
+
+# logs
+logs
