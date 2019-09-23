@@ -19,8 +19,8 @@ def main():
     cfg_parser = RawConfigParser()
 
     # read .ini file for the appropriate app setup (dev, prod or test)
-    cfg = cfg_parser.read(cfg_path)
-
+    cfg_parser.read(cfg_path)
+    
     # create a dict with the config
     cfg_dict = {x: dict(cfg_parser.items(x)) for x in cfg_parser.sections()}
 

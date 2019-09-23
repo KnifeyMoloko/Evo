@@ -1,6 +1,9 @@
 """This is the app factory file. It should run the app proper and
 return in to the orchestration file main.py"""
 
+import logging
+from .evo.evo import App
+
 
 def create_app(cfg):
     """
@@ -9,6 +12,8 @@ def create_app(cfg):
     :return: application instance
     """
 
-    # create app variable and return it
-    app = {}
+    logging.info("Creating App instance")
+
+    # create app instance and return it
+    app = App(cfg)
     return app
