@@ -51,3 +51,9 @@ class AppClass(unittest.TestCase):
     def test_app_has_tick(self):
         app = create_app(self.cfg)
         self.assertTrue(app.tick > 0)
+
+    def test_app_has_environment(self):
+        #TODO: load up environment with the correct size
+        #TODO: add a tick() method to the app
+        #TODO: add a stop() method to the the app? or environ? = duration
+        self.assertTrue(True)
