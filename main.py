@@ -40,7 +40,7 @@ def main():
     app = create_app(cfg_dict)
 
     # make a log
-    logger.info("Running app: " + (os.environ.get('APP_NAME') or "Anonymous App"))
+    logger.info("Running app")
     return True
 
 

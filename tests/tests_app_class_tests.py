@@ -24,7 +24,10 @@ class AppClass(unittest.TestCase):
         os.environ.pop('APP_ENV')
 
     def test_app_is_not_none(self):
-        self.assertTrue(create_app({"dummy": 0}) is not None)
+        self.assertTrue(create_app(
+            {"app": {"name": "not_really_an_app"},
+             "environment": {"duration": 5, "size": 4,
+                             "tick": 10}}) is not None)
 
     def test_app_factory_returns_object(self):
         self.assertIsNotNone(create_app(self.cfg))
@@ -34,6 +37,17 @@ class AppClass(unittest.TestCase):
             create_app("")
 
     def test_app_has_name(self):
-        # TODO: access name of app from cfg
-        self.assertTrue(True)
+        app = create_app(self.cfg)
+        self.assertTrue(app.name)
 
+    def test_app_has_duration(self):
+        app = create_app(self.cfg)
+        self.assertTrue(app.duration)
+
+    def test_app_has_size(self):
+        app = create_app(self.cfg)
+        self.assertTrue(app.size > 0)
+
+    def test_app_has_tick(self):
+        app = create_app(self.cfg)
+        self.assertTrue(app.tick > 0)
