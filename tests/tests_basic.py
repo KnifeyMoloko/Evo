@@ -4,7 +4,7 @@ Add to them as you see fit."""
 import unittest
 import os
 import main
-from app import create_app
+from helpers.general import get_config
 
 
 class AppBasics(unittest.TestCase):
@@ -21,11 +21,5 @@ class AppBasics(unittest.TestCase):
         self.assertLogs()
 
     def test_config_is_not_empty(self):
-        from pathlib import Path
-        from configparser import RawConfigParser
-
-        root = Path('.') / os.getcwd()
-        cfg_path = root / 'config' / '{}.ini'.format(os.environ.get('APP_ENV'))
-        cfg_parser = RawConfigParser()
-        cfg = cfg_parser.read(cfg_path)
+        cfg = get_config()
         self.assertTrue(len(cfg) > 0)

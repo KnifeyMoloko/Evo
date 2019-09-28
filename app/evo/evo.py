@@ -15,7 +15,5 @@ class App:
         self.logger = logging.getLogger(config["app"]["name"] + " logger")
         self.logger.info("Starting app configuration")
         self.name = config["app"]["name"]
-        self.duration = int(config["environment"]["duration"])
-        self.size = int(config["environment"]["size"])
-        self.tick = int(config["environment"]["tick"])
+        self.environment_config = config["environment"]
         self.logger.info("Ended app configuration")

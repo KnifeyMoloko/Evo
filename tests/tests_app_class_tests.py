@@ -6,19 +6,13 @@ init as expected etc.
 import unittest
 import os
 from app import create_app
+from helpers.general import get_config
 
 
 class AppClass(unittest.TestCase):
     def setUp(self):
-        from pathlib import Path
-        from configparser import RawConfigParser
         os.environ['APP_ENV'] = 'test'
-        root = Path('.') / os.getcwd()
-        cfg_path = root / 'config' / '{}.ini'.format(os.environ.get('APP_ENV'))
-        cfg_parser = RawConfigParser()
-        cfg = cfg_parser.read(cfg_path)
-        cfg_dict = {x: dict(cfg_parser.items(x)) for x in cfg_parser.sections()}
-        self.cfg = cfg_dict
+        self.cfg = get_config().get("cfg")
 
     def tearDown(self):
         os.environ.pop('APP_ENV')
@@ -40,20 +34,5 @@ class AppClass(unittest.TestCase):
         app = create_app(self.cfg)
         self.assertTrue(app.name)
 
-    def test_app_has_duration(self):
-        app = create_app(self.cfg)
-        self.assertTrue(app.duration)
-
-    def test_app_has_size(self):
-        app = create_app(self.cfg)
-        self.assertTrue(app.size > 0)
-
-    def test_app_has_tick(self):
-        app = create_app(self.cfg)
-        self.assertTrue(app.tick > 0)
-
-    def test_app_has_environment(self):
-        #TODO: load up environment with the correct size
-        #TODO: add a tick() method to the app
-        #TODO: add a stop() method to the the app? or environ? = duration
-        self.assertTrue(True)
+    def test_app_has_environment_config(self):
+        self.assertTrue(create_app(self.cfg).environment_config)
