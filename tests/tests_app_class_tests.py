@@ -18,10 +18,10 @@ class AppClass(unittest.TestCase):
         os.environ.pop('APP_ENV')
 
     def test_app_is_not_none(self):
-        self.assertTrue(create_app(
+        self.assertIsNotNone(create_app(
             {"app": {"name": "not_really_an_app"},
              "environment": {"duration": 5, "size": 4,
-                             "tick": 10}}) is not None)
+                             "tick": 10}}))
 
     def test_app_factory_returns_object(self):
         self.assertIsNotNone(create_app(self.cfg))
@@ -34,5 +34,10 @@ class AppClass(unittest.TestCase):
         app = create_app(self.cfg)
         self.assertTrue(app.name)
 
+    def test_app_has_tick(self):
+        self.assertTrue(create_app(self.cfg).tick)
+
     def test_app_has_environment_config(self):
-        self.assertTrue(create_app(self.cfg).environment_config)
+        self.assertTrue(create_app(self.cfg).default_environment_config)
+
+    # TODO: test: app is running until shutdown condition is met

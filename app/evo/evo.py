@@ -14,6 +14,10 @@ class App:
             raise ValueError
         self.logger = logging.getLogger(config["app"]["name"] + " logger")
         self.logger.info("Starting app configuration")
+        self.default_environment_config = config["environment"]
         self.name = config["app"]["name"]
-        self.environment_config = config["environment"]
+        self.tick = config["app"]["name"]
         self.logger.info("Ended app configuration")
+
+    def spawn_environment(self, environment, duration, size):
+        self.__setattr__("environment", {"size": size})
