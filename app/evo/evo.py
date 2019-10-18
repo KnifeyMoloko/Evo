@@ -9,15 +9,18 @@ import logging
 
 
 class App:
-    def __init__(self, config):
+    def __init__(self, config, environment_dict):
         if not config:
             raise ValueError
         self.logger = logging.getLogger(config["app"]["name"] + " logger")
         self.logger.info("Starting app configuration")
         self.default_environment_config = config["environment"]
+        self.env_dict = environment_dict
         self.name = config["app"]["name"]
         self.tick = config["app"]["name"]
         self.logger.info("Ended app configuration")
 
     def spawn_environment(self, environment, duration, size):
-        self.__setattr__("environment", {"size": size})
+        env = self.env_dict.get(environment)
+        new_env = env("newEnv", duration, size)
+        self.__setattr__("environment", new_env)

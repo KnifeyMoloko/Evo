@@ -3,7 +3,7 @@ return in to the orchestration file main.py"""
 
 import logging
 from .evo.evo import App
-
+from .environment import environments
 
 def create_app(cfg):
     """
@@ -15,5 +15,5 @@ def create_app(cfg):
     logging.info("Creating App instance")
 
     # create app instance and return it
-    app = App(cfg)
+    app = App(cfg, environments)
     return app
