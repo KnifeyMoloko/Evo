@@ -31,6 +31,11 @@ class EnvironmentClassTests(unittest.TestCase):
     def tearDown(self):
         os.environ.pop('APP_ENV')
 
+    def test_app_spawns_environment(self):
+        app = create_app(self.cfg)
+        app.spawn_environment("Basic", duration=10, size=64)
+        self.assertIsNotNone(app.environment)
+
     def test_env_has_non_zero_size(self):
         app = create_app(self.cfg)
         expected_size = 8
@@ -38,7 +43,8 @@ class EnvironmentClassTests(unittest.TestCase):
         size = app.environment.get("size")
         self.assertEqual(size, expected_size)
 
-    # TODO: test if app spawns new environment
-    # TODO: load up environment with the correct size
+    # TODO: environment is instance of the right class
+    # TODO: environment instance has the correct attributes: size, duration, name
+    # TODO: app loads the correct environment based on name
     # TODO: add a tick() method to the app
     # TODO: add a stop() method to the the app? or environ? = duration
