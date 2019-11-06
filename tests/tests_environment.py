@@ -1,5 +1,7 @@
 import os
 import unittest
+from random import randint
+
 from helpers.general import get_config
 from app import create_app
 
@@ -23,7 +25,7 @@ class EnvironmentConfigTests(unittest.TestCase):
         self.assertTrue(size)
 
 
-class EnvironmentClassTests(unittest.TestCase):
+class EnvironmentClassSetupTests(unittest.TestCase):
     def setUp(self):
         os.environ['APP_ENV'] = 'test'
         self.cfg = get_config().get("cfg")
@@ -38,18 +40,43 @@ class EnvironmentClassTests(unittest.TestCase):
 
     def test_environment_is_instance_of_class_Environment(self):
         app = create_app(self.cfg)
-        env_class = app.env_dict.get("base")
-        app.spawn_environment(environment="base", duration=10, size=16)
-        self.assertIsInstance(obj=app.environment, cls=env_class)
+        env_base_class = app.env_dict.get("base")
+        app.spawn_environment(environment="regular_clear", duration=10, size=16)
+        app_env = app.environment
+        self.assertTrue(issubclass(app_env.__class__, env_base_class))
+
+
+class TestEnvOwnAttributes(unittest.TestCase):
+    def setUp(self):
+        os.environ['APP_ENV'] = 'test'
+        self.cfg = get_config().get("cfg")
+        self.app = create_app(self.cfg)
+        self.rng_size = randint(0, 1000000)
+        self.rng_duration = randint(0, 100000)
+        self.app.spawn_environment(environment="regular_clear",
+                                   size=self.rng_size,
+                                   duration=self.rng_duration)
+
+    def tearDown(self):
+        os.environ.pop('APP_ENV')
 
     def test_env_has_non_zero_size(self):
-        app = create_app(self.cfg)
-        expected_size = 8
-        app.spawn_environment("base", duration=10, size=expected_size)
-        self.assertEqual(app.environment.size, expected_size)
+        self.assertGreater(self.app.environment.size, 0)
 
-    # TODO: redo the class instance test to check for sublcassing
-    # TODO: environment instance has the correct attributes: size, duration, name
+    def test_env_has_non_zero_duration(self):
+        self.assertGreater(self.app.environment.duration, 0)
+
+    def test_env_expected_size(self):
+        expected_size = self.rng_size
+        self.assertEqual(self.app.environment.size, expected_size)
+
+    def test_env_expected_duration(self):
+        expected_duration = self.rng_duration
+        self.assertEqual(self.app.environment.duration, expected_duration)
+
+    def test_env_has_expected_name(self):
+        self.assertEqual(self.app.environment.name, "regular_clear")
+
     # TODO: app loads the correct environment based on name
     # TODO: add a tick() method to the app
     # TODO: add a stop() method to the the app? or environ? = duration
