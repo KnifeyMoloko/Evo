@@ -4,7 +4,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 timeout(time: 2, unit: 'MINUTES') {
-                    sh 'apt-get install python3.6'
+                    sh 'apt-get install python3'
                 }
                 timeout(time: 3, unit: 'MINUTES') {
                     sh 'python3 -m unittest'
