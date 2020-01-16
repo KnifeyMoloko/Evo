@@ -4,7 +4,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 timeout(time: 3, unit: 'MINUTES') {
-                    sh 'python -m unittest'
+                    sh 'python run_tests.py'
                 }
             }
         }
