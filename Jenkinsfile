@@ -1,15 +1,15 @@
 pipeline {
-    agent { docker { image 'python:3.6-buster' } }
+    agent any
     stages {
         stege('Check) {
               steps {
-                  sh 'python3 --version'
+                  sh 'python --version'
               }
           }
         stage('Deploy') {
             steps {
                 timeout(time: 3, unit: 'MINUTES') {
-                    sh 'python3 -m unittest'
+                    sh 'python -m unittest'
                 }
             }
         }
