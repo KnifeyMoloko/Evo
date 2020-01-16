@@ -1,11 +1,8 @@
 pipeline {
-    agent any
+    agent { docker { image 'python:3.7' } }
     stages {
         stage('Deploy') {
             steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    sh 'apt install python3.7'
-                }
                 timeout(time: 3, unit: 'MINUTES') {
                     sh 'python3 -m unittest'
                 }
