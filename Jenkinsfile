@@ -1,5 +1,5 @@
 pipeline {
-    agent { docker { image 'python:3.6-stretch' } }
+    agent { docker { image 'python' } }
     stages {
         stage('Deploy') {
             steps {
