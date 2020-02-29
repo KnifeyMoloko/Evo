@@ -2,11 +2,10 @@
 basic stuff: does it exit gracefully, does it configure and
 init as expected etc.
 """
-
 import unittest
 import os
 from app import create_app
-from helpers.general import get_config
+from helpers.general import get_config, time_func_perf
 
 
 class AppClass(unittest.TestCase):
@@ -40,4 +39,13 @@ class AppClass(unittest.TestCase):
     def test_app_has_environment_config(self):
         self.assertTrue(create_app(self.cfg).default_environment_config)
 
-    # TODO: test: app is running until shutdown condition is met
+    def test_app_is_running_until_duration_condition_is_met(self):
+        app = create_app(self.cfg)
+        duration = float(app.default_environment_config["duration"])
+        app.spawn_environment(environment="regular_clear",
+                              duration=app.default_environment_config["duration"],
+                              size=app.default_environment_config["size"])
+        runtime = time_func_perf(func=app.run)
+        self.assertGreaterEqual(duration, runtime, msg="Runtime exceeded duration attribute value")
+
+    #TODO delegate run method to a thread to allow for stop signal listening

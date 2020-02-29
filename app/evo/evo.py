@@ -18,9 +18,18 @@ class App:
         self.env_dict = environment_dict
         self.name = config["app"]["name"]
         self.tick = config["app"]["name"]
+        self.runtime = 0.0
         self.logger.info("Ended app configuration")
 
     def spawn_environment(self, environment, duration, size):
         env = self.env_dict.get(environment)
-        new_env = env("newEnv", duration, size)
+        new_env = env(self.name, duration, size)
         self.__setattr__("environment", new_env)
+
+    def run(self):
+        if self.environment:
+            while self.runtime <= float(self.environment.duration):
+                self.runtime += 1
+        else:
+            self.logger.exception(msg="No environment to run. Spawn environment first.")
+            raise AttributeError

@@ -1,5 +1,6 @@
-""" main file for the app orchestration """
-# imports
+"""
+main file for the app orchestration
+"""
 import logging
 import logging.config as logging_cfg
 from helpers import general
@@ -24,8 +25,8 @@ def main():
     # create app instance for dev, test or prod
     app = create_app(config.get("cfg"))
 
-    # make a log
     logger.info("Running app")
+    # here is where the actual app instructions will be
     return True
 
 

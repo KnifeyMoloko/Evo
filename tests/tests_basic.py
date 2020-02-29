@@ -1,6 +1,7 @@
-"""These are the class definitions for basic test cases, used by unittest.
-Add to them as you see fit."""
-
+"""
+These are the class definitions for basic test cases, used by unittest.
+Add to them as you see fit.
+"""
 import unittest
 import os
 import main
