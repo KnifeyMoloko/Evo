@@ -18,9 +18,8 @@ class AppClass(unittest.TestCase):
 
     def test_app_is_not_none(self):
         self.assertIsNotNone(create_app(
-            {"app": {"name": "not_really_an_app"},
-             "environment": {"duration": 5, "size": 4,
-                             "tick": 10}}))
+            {"app": {"name": "not_really_an_app", "tick_interval": 1.0},
+             "environment": {"duration": 5.0, "size": 4}}))
 
     def test_app_factory_returns_object(self):
         self.assertIsNotNone(create_app(self.cfg))
@@ -33,8 +32,8 @@ class AppClass(unittest.TestCase):
         app = create_app(self.cfg)
         self.assertTrue(app.name)
 
-    def test_app_has_tick(self):
-        self.assertTrue(create_app(self.cfg).tick)
+    def test_app_has_tick_interval(self):
+        self.assertTrue(create_app(self.cfg).tick_interval)
 
     def test_app_has_environment_config(self):
         self.assertTrue(create_app(self.cfg).default_environment_config)
@@ -47,5 +46,12 @@ class AppClass(unittest.TestCase):
                               size=app.default_environment_config["size"])
         runtime = time_func_perf(func=app.run)
         self.assertGreaterEqual(duration, runtime, msg="Runtime exceeded duration attribute value")
+
+    def test_app_calling_tick_method_increments_duration(self):
+        app = create_app(self.cfg)
+        init_runtime = app.runtime
+        app.tick()
+        post_tick_runtime = app.runtime
+        self.assertGreater(post_tick_runtime, init_runtime)
 
     #TODO delegate run method to a thread to allow for stop signal listening

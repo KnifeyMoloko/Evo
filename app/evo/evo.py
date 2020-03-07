@@ -17,8 +17,8 @@ class App:
         self.default_environment_config = config["environment"]
         self.env_dict = environment_dict
         self.name = config["app"]["name"]
-        self.tick = config["app"]["name"]
         self.runtime = 0.0
+        self.tick_interval = config["app"]["tick_interval"]
         self.logger.info("Ended app configuration")
 
     def spawn_environment(self, environment, duration, size):
@@ -33,3 +33,6 @@ class App:
         else:
             self.logger.exception(msg="No environment to run. Spawn environment first.")
             raise AttributeError
+
+    def tick(self):
+        pass
